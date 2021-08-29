@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { RestaurantCard } from '../RestaurantCard';
+import { Loader } from '../Loader';
+import { Error } from '../Error';
 import './RestaurantsListPage.scss';
 
 const DEFAULT_ETA_RANGE = '20 - 30 min';
@@ -14,7 +16,19 @@ export class RestourantsListPage extends Component {
   }
 
   render() {
-    const { restaurantsData } = this.props;
+    const {
+      restaurantsData,
+      error,
+      isLoading,
+    } = this.props;
+
+    if (isLoading) {
+      return <Loader />;
+    }
+
+    if (error) {
+      return <Error message={error} />;
+    }
 
     return (
       <div className="restaurants-list">
@@ -44,10 +58,14 @@ export class RestourantsListPage extends Component {
 }
 
 RestourantsListPage.propTypes = {
-  loadRestaurants: PropTypes.func.isRequired,
   restaurantsData: PropTypes.arrayOf(PropTypes.object.isRequired),
+  loadRestaurants: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
 RestourantsListPage.defaultProps = {
   restaurantsData: [],
+  error: null,
+  isLoading: false,
 };

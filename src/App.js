@@ -10,11 +10,11 @@ export const App = () => (
   <Provider store={store}>
     <div className="App">
       <Header />
-      <div className="page">
-        <main className="content">
+      <main className="page">
+        <div className="content">
           <RestourantsListPage />
-        </main>
-      </div>
+        </div>
+      </main>
       <Footer />
     </div>
   </Provider>
