@@ -25,40 +25,59 @@ export class Input extends PureComponent {
       placeholder,
       name,
       className,
+      isSmall,
+      label,
     } = this.props;
 
     const { isFocused } = this.state;
-    const rootClass = cx('control', {
-      'control--focused': isFocused,
+
+    const inputWrapperClass = cx('control__input-wrapper', {
+      'control__input-wrapper--focused': isFocused,
       [className]: !!className,
     });
 
-    return (
-      <div
-        className={rootClass}
-        onClick={this.focus}
-        role="presentation"
-      >
-        {!!iconUrl && (
-          <img
-            src={iconUrl}
-            alt={placeholder}
-            className="control__icon"
-          />
-        )}
+    const inputClass = cx('control__input', {
+      'control__input--small': isSmall,
+      'control__input--time': type === 'time',
+    });
 
-        <input
-          ref={this.inputRef}
-          type={type}
-          value={value}
-          onChange={onChange}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          name={name}
-          placeholder={placeholder}
-          className="control__input"
-        />
-      </div>
+    return (
+      <label
+        className="control"
+       // onClick={this.focus}
+       // role="presentation"
+      >
+        {label && (
+          <p className="control__label">
+            {label}
+          </p>
+        )}
+        <div
+          className={inputWrapperClass}
+          onClick={this.focus}
+          role="presentation"
+        >
+          {!!iconUrl && (
+            <img
+              src={iconUrl}
+              alt={placeholder}
+              className="control__icon"
+            />
+          )}
+
+          <input
+            ref={this.inputRef}
+            type={type}
+            value={value}
+            onChange={onChange}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            name={name}
+            placeholder={placeholder}
+            className={inputClass}
+          />
+        </div>
+      </label>
     );
   }
 }
@@ -71,6 +90,8 @@ Input.propTypes = {
   type: PropTypes.string,
   placeholder: PropTypes.string,
   className: PropTypes.string,
+  label: PropTypes.string,
+  isSmall: PropTypes.bool,
 };
 
 Input.defaultProps = {
@@ -78,4 +99,6 @@ Input.defaultProps = {
   type: 'text',
   placeholder: '',
   className: '',
+  label: '',
+  isSmall: true,
 };
